@@ -58,7 +58,6 @@ namespace FundooNotesProgram.Controllers
             }
             catch (System.Exception)
             {
-
                 throw;
             }
         }

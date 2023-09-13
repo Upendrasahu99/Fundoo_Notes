@@ -1,10 +1,14 @@
 ﻿using CommonLayer.Model;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using RepoLayer.Context;
 using RepoLayer.Entity;
 using RepoLayer.Interface;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 
 namespace RepoLayer.Service
@@ -12,9 +16,11 @@ namespace RepoLayer.Service
     public class UserRepo : IUserRepo
     {
         private readonly FundooContext fundooContext;
-        public UserRepo(FundooContext fundooContext)
+        private readonly IConfiguration configuration;
+        public UserRepo(FundooContext fundooContext, IConfiguration configuration)
         {
             this.fundooContext = fundooContext;
+            this.configuration = configuration;
         }
 
         public UserEntity UserRegister(UserRegModel model)
@@ -90,12 +96,39 @@ namespace RepoLayer.Service
                 UserEntity user = fundooContext.users.SingleOrDefault(u => u.Email == model.Email && u.Password == EncryptPassword(model.Password));
                 if(user != null)
                 {
-                    return "User Found";
+                    string JwtToken = GenerateJwtToken(user.Email, user.UserId);
+                    return JwtToken;
                 }
                 else
                 {
                     return null;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        //JWT Token Generation
+        public string GenerateJwtToken(string Email, long UserID)
+        {
+            try
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim("UserID", UserID.ToString()),
+                    new Claim(ClaimTypes.Email, Email)
+                };
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Secretkey"]));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(
+                    claims: claims,
+                    notBefore: DateTime.Now,
+                    expires: DateTime.Now.AddHours(1),
+                    signingCredentials: creds
+                    );
+                return new JwtSecurityTokenHandler().WriteToken(token);
             }
             catch (Exception)
             {
