@@ -35,10 +35,32 @@ namespace FundooNotesProgram.Controllers
             }
             catch (System.Exception)
             {
-
                 throw;
             }
         }
 
+        //UserLogin
+        [HttpPost]
+        [Route ("Login")]
+        public IActionResult UserLogin(UserLogModel model)
+        {
+            try
+            {
+                var result = userBusiness.UserLogin(model);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Login Successful", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Login Unsuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

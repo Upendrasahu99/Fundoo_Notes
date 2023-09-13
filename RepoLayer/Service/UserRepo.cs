@@ -81,5 +81,27 @@ namespace RepoLayer.Service
                 return null;
             }
         }
+
+        //User Login
+        public string UserLogin(UserLogModel model)
+        {
+            try
+            {
+                UserEntity user = fundooContext.users.SingleOrDefault(u => u.Email == model.Email && u.Password == EncryptPassword(model.Password));
+                if(user != null)
+                {
+                    return "User Found";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

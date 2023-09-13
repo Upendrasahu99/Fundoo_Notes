@@ -16,6 +16,7 @@ namespace BusinessLayer.Service
             this.userRepo = userRepo;
         }
 
+        //UserRegister
         public UserEntity UserRegister(UserRegModel model)
         {
             try
@@ -27,6 +28,20 @@ namespace BusinessLayer.Service
 
                 throw;
             };
+        }
+
+        //UserLogin
+        public string UserLogin(UserLogModel model)
+        {
+            try
+            {
+                return userRepo.UserLogin(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
