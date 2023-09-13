@@ -28,7 +28,7 @@ namespace RepoLayer.Service
                     newUser.FirstName = model.FirstName;
                     newUser.LastName = model.LastName;
                     newUser.Email = model.Email;
-                    newUser.Password = model.Password;
+                    newUser.Password = EncryptPassword(model.Password);
                     fundooContext.users.Add(newUser);
                     fundooContext.SaveChanges();
                     if(newUser != null)
@@ -49,6 +49,36 @@ namespace RepoLayer.Service
             {
 
                 throw;
+            }
+        }
+
+        //Password Encryption
+        public string EncryptPassword(string password)
+        {
+            if (password != null)
+            {
+                byte[] storePassword = ASCIIEncoding.ASCII.GetBytes(password);
+                string encyptedPassword = Convert.ToBase64String(storePassword);
+                return encyptedPassword;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        //Password Decryption
+        public string DecryptPassword(string Password)
+        {
+            if(Password != null)
+            {
+                byte[] encryptedPassword = Convert.FromBase64String(Password);
+                string decryptedPassword = ASCIIEncoding.ASCII.GetString(encryptedPassword);
+                return decryptedPassword;
+            }
+            else
+            {
+                return null;
             }
         }
     }
