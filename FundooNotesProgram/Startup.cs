@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using RepoLayer.Context;
 using RepoLayer.Interface;
 using RepoLayer.Service;
@@ -43,6 +44,29 @@ namespace FundooNotesProgram
 
             services.AddControllers();
 
+            //Swagger Generator
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "My API", Version = "v1"
+                });
+                var securitySchema = new OpenApiSecurityScheme
+                {
+                    Description = "Using the Authorization header with Bearer schema",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = JwtBearerDefaults.AuthenticationScheme
+                    }
+                };
+            });
+
             //JWT Configuration
             var Token = Configuration.GetValue<string>("JwtSettings:Secretkey");
             services.AddAuthentication(options =>
@@ -69,6 +93,13 @@ namespace FundooNotesProgram
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            // Swagger middleware Implementation 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/Swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseHttpsRedirection();
 
