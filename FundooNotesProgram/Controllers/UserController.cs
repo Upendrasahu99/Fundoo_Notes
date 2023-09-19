@@ -18,7 +18,7 @@ namespace FundooNotesProgram.Controllers
 
         //UserRegister
         [HttpPost]
-        [Route ("Register")]
+        [Route("Register")]
         public IActionResult UserRegister(UserRegModel model)
         {
             try
@@ -41,7 +41,7 @@ namespace FundooNotesProgram.Controllers
 
         //UserLogin
         [HttpPost]
-        [Route ("Login")]
+        [Route("Login")]
         public IActionResult UserLogin(UserLogModel model)
         {
             try
@@ -61,5 +61,29 @@ namespace FundooNotesProgram.Controllers
                 throw;
             }
         }
+        //Forgot Password
+        [HttpPost]
+        [Route("Forgot")]
+        public IActionResult Forgot(ForgotPasswordModel model)
+        {
+            try
+            {
+                var result = userBusiness.ForgotPassword(model);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Mail has been sent", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Mail was not sent" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

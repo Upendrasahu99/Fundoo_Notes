@@ -43,5 +43,19 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+
+        //Forgot Password
+        public string ForgotPassword(ForgotPasswordModel model)
+        {
+            try
+            {
+                return userRepo.ForgotPassword(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

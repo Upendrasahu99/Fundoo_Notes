@@ -136,5 +136,30 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+
+        //Forgot Password 
+        public string ForgotPassword(ForgotPasswordModel model)
+        {
+            try
+            {
+                UserEntity user = fundooContext.users.SingleOrDefault(u => u.Email == model.Email);
+                if (user != null)
+                {
+                    string token = GenerateJwtToken(user.Email, user.UserId);
+                    MsmqModel msmqModel = new MsmqModel(model.Email);
+                    msmqModel.MessageSender(token);
+                    return token;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

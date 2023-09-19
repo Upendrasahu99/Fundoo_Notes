@@ -105,6 +105,8 @@ namespace FundooNotesProgram
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
