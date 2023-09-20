@@ -38,18 +38,19 @@ namespace FundooNotesProgram
             //Database Configuration
             services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FUNDOO_DB"]));
 
+            services.AddControllers();
+
             //User Configuration
             services.AddTransient<IUserBusiness, UserBusiness>();
             services.AddTransient<IUserRepo, UserRepo>();
-
-            services.AddControllers();
 
             //Swagger Generator
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "My API", Version = "v1"
+                    Title = "My API",
+                    Version = "v1"
                 });
                 var securitySchema = new OpenApiSecurityScheme
                 {
@@ -65,6 +66,9 @@ namespace FundooNotesProgram
                         Id = JwtBearerDefaults.AuthenticationScheme
                     }
                 };
+                c.AddSecurityDefinition(securitySchema.Reference.Id, securitySchema);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement { {
+                    securitySchema, Array.Empty<string>()}});
             });
 
             //JWT Configuration
@@ -79,6 +83,8 @@ namespace FundooNotesProgram
                     options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Token))

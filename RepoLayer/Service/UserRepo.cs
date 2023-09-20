@@ -161,5 +161,26 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+
+        //Reset Password
+        public bool ResetPassword(ResetModel resetModel, string email)
+        {
+            try
+            {
+                UserEntity user = fundooContext.users.SingleOrDefault(u => u.Email == email);
+                if (user != null && resetModel.NewPassword == resetModel.ConfirmPassword)
+                {
+                    user.Password = EncryptPassword(resetModel.NewPassword);
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

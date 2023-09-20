@@ -1,7 +1,9 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FundooNotesProgram.Controllers
 {
@@ -80,10 +82,35 @@ namespace FundooNotesProgram.Controllers
             }
             catch (System.Exception)
             {
-
                 throw;
             }
         }
 
+        //Reset Password
+        [Authorize]
+        [HttpPut("Reset")]
+       
+        public IActionResult Reset(ResetModel model)
+        {
+            try
+            {
+                string email = User.FindFirst(ClaimTypes.Email).Value.ToString();
+                var result = userBusiness.ResetPassword(model, email);
+
+                if (result)
+                {
+                    return Ok(new { success = true, message = "Password Reset Successful" }); ;
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Password not matched"});
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
