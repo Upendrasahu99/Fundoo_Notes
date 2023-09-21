@@ -44,6 +44,10 @@ namespace FundooNotesProgram
             services.AddTransient<IUserBusiness, UserBusiness>();
             services.AddTransient<IUserRepo, UserRepo>();
 
+            //Note Configuration
+            services.AddTransient<INoteBusiness, NoteBusiness>();
+            services.AddTransient<INoteRepo, NoteRepo>();
+
             //Swagger Generator
             services.AddSwaggerGen(c =>
             {

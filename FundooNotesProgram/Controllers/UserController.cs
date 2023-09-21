@@ -99,7 +99,7 @@ namespace FundooNotesProgram.Controllers
 
                 if (result)
                 {
-                    return Ok(new { success = true, message = "Password Reset Successful" }); ;
+                    return Ok(new { success = true, message = "Password Reset Successful" , data = result}); ;
                 }
                 else
                 {
@@ -108,7 +108,6 @@ namespace FundooNotesProgram.Controllers
             }
             catch (System.Exception)
             {
-
                 throw;
             }
         }
