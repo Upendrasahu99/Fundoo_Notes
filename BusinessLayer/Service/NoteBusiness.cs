@@ -17,11 +17,26 @@ namespace BusinessLayer.Service
             this.noteRepo = noteRepo;
         }
 
+        //Create Note
         public NoteEntity CreateNote(long userId, CreateNoteModel model)
         {
             try
             {
                 return noteRepo.CreateNote(userId, model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        //Get All Note
+        public List<NoteEntity> GetAll(long userId)
+        {
+            try
+            {
+                return noteRepo.GetAll(userId);
             }
             catch (Exception)
             {

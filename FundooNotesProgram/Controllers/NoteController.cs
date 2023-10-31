@@ -4,6 +4,7 @@ using Experimental.System.Messaging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace FundooNotesProgram.Controllers
 {
@@ -37,6 +38,34 @@ namespace FundooNotesProgram.Controllers
                 }
             }
             catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        //Get All Notes
+        [Authorize]
+        [HttpGet]
+        [Route("Get")]
+        public IActionResult GetAllNotes()
+        {
+            try
+            {
+                long userId = long.Parse(User.FindFirst("userId").Value);
+                var result = noteBusiness.GetAll(userId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, Message = "All Notes List", result = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, Message = "There is no Notes in " });
+                }
+
+            }
+            catch (Exception)
             {
 
                 throw;

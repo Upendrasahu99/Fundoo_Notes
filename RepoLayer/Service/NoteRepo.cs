@@ -4,6 +4,7 @@ using RepoLayer.Entity;
 using RepoLayer.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace RepoLayer.Service
@@ -50,5 +51,24 @@ namespace RepoLayer.Service
             }
         }
 
+        //Get All Note of One user
+        public List<NoteEntity> GetAll(long userId)
+        {
+            try
+            {
+                var result = fundooContext.Note.Where(u => u.UserId == userId).ToList();
+
+                if (result.Count > 0)
+                {
+                    return result;
+                }
+                else { return null; }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
