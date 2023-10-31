@@ -99,5 +99,31 @@ namespace FundooNotesProgram.Controllers
                 throw;
             }
         }
+
+
+        //Delete Note
+        [Authorize]
+        [HttpDelete]
+        [Route("Delete/{noteId}")]
+        public IActionResult DeleteNote(long noteId)
+        {
+            try
+            {
+                long userId = long.Parse(User.FindFirst("userId").Value);
+                var result = noteBusiness.DeleteNote(noteId, userId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, Message = "Note Deleted", result = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, Message = "Don't have note" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

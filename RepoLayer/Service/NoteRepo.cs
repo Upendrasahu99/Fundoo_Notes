@@ -97,6 +97,28 @@ namespace RepoLayer.Service
             }
         }
 
+        //DeleteNote
+        public NoteEntity DeleteNote(long noteId, long userId)
+        {
+            try
+            {
+                NoteEntity note = fundooContext.Note.SingleOrDefault(u => u.NoteId == noteId && u.UserId == userId);
+                if (note != null)
+                {
+                    fundooContext.Remove(note);
+                    fundooContext.SaveChanges();
+                    return note;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
     }
 }
