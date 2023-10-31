@@ -125,5 +125,31 @@ namespace FundooNotesProgram.Controllers
                 throw;
             }
         }
+
+        //Change Archive
+        [Authorize]
+        [HttpPut]
+        [Route("Archive/{noteId}")]
+        public IActionResult ChangeArchive(long noteId)
+        {
+            try
+            {
+                long userId = long.Parse(User.FindFirst("userId").Value);
+                var result = noteBusiness.ChangeArchive(noteId, userId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, Message = "Archive Changed", result = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, Message = "Archive Not change" });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

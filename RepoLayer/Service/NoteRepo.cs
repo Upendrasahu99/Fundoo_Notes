@@ -120,5 +120,37 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+
+        // Change Archive
+        public NoteEntity ChangeArchive(long noteId, long userId)
+        {
+            try
+            {
+                NoteEntity note = fundooContext.Note.SingleOrDefault(u => u.NoteId == noteId && u.UserId == userId);
+
+                if (note != null && note.Archive == true)
+                {
+                    note.Archive = false;
+                    fundooContext.SaveChanges();
+                    return note;
+                }
+                else if (note != null && note.Archive == false)
+                {
+                    note.Archive = true;
+                    fundooContext.SaveChanges();
+                    return note;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

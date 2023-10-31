@@ -73,5 +73,17 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        //ChangeArchive
+        public NoteEntity ChangeArchive(long noteId, long userId)
+        {
+            try
+            {
+                return noteRepo.ChangeArchive(noteId, userId);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
     }
 }
