@@ -31,6 +31,21 @@ namespace BusinessLayer.Service
             }
         }
 
+        //Update Note
+        public NoteEntity UpdateNote(UpdateNoteModel updateNoteModel, long userId, long noteId)
+        {
+            try
+            {
+                return noteRepo.UpdateNote(updateNoteModel, userId, noteId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
         //Get All Note
         public List<NoteEntity> GetAll(long userId)
         {

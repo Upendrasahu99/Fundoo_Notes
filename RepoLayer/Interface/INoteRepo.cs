@@ -10,5 +10,6 @@ namespace RepoLayer.Interface
     {
         public NoteEntity CreateNote(long userId, CreateNoteModel model);
         public List<NoteEntity> GetAll(long userId);
+        public NoteEntity UpdateNote(UpdateNoteModel updateNoteModel, long userId, long noteId);
     }
 }

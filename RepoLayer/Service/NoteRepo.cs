@@ -50,6 +50,32 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+        //UpdateNote
+        public NoteEntity UpdateNote(UpdateNoteModel updateNoteModel, long userId, long noteId)
+        {
+            try
+            {
+                NoteEntity note = fundooContext.Note.FirstOrDefault(u => u.NoteId == noteId && u.UserId == userId);
+                if (note != null)
+                {
+                    note.Title = updateNoteModel.Title;
+                    note.Note = updateNoteModel.Note;
+                    note.EditedTime = DateTime.Now;
+                    note.BackgroundColor = updateNoteModel.BackgroundColor;
+                    note.ImagePath = updateNoteModel.ImagePath;
+                    note.Archive = updateNoteModel.Archive;
+                    note.PinNote = updateNoteModel.PinNote;
+                    note.Trash = updateNoteModel.Trash;
+                    fundooContext.SaveChanges();
+                    return note;
+                }
+                else { return null; }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         //Get All Note of One user
         public List<NoteEntity> GetAll(long userId)
@@ -70,5 +96,7 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+
+
     }
 }
