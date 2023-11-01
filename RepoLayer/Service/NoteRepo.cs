@@ -210,5 +210,28 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+
+        //Change BackgroundColor
+        public NoteEntity ChangeBackgroundColor(string color, long noteId, long userId)
+        {
+            try
+            {
+                NoteEntity note = fundooContext.Note.SingleOrDefault(u => u.NoteId == noteId && u.UserId == userId);
+                if (note != null)
+                {
+                    note.BackgroundColor = color;
+                    fundooContext.SaveChanges();
+                    return note;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

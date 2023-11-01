@@ -113,5 +113,19 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+
+        //Change Background Color
+        public NoteEntity BackgroundColor(string color, long noteId, long userId)
+        {
+            try
+            {
+                return noteRepo.ChangeBackgroundColor(color, noteId, userId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -15,5 +15,6 @@ namespace RepoLayer.Interface
         public NoteEntity ChangeArchive(long noteId, long userId);
         public NoteEntity ChangePinNote(long noteId, long userId);
         public NoteEntity ChangeTrashSection(long noteId, long userId);
+        public NoteEntity ChangeBackgroundColor(string color, long noteId, long userId);
     }
 }

@@ -204,5 +204,30 @@ namespace FundooNotesProgram.Controllers
                 throw;
             }
         }
+
+        //Change Color
+        [Authorize]
+        [HttpPut]
+        [Route("Background/{Color}/{noteId}")]
+        public IActionResult BackgroundColor(string color, long noteId)
+        {
+            try
+            {
+                long userId = long.Parse(User.FindFirst("userId").Value);
+                var result = noteBusiness.BackgroundColor(color, noteId, userId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, Message = "Color Changed", result = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, Message = "Color Not Changed" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
