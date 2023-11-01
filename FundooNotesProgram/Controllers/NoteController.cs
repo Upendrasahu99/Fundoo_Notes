@@ -151,5 +151,32 @@ namespace FundooNotesProgram.Controllers
                 throw;
             }
         }
+
+
+        //Change Pin
+        [Authorize]
+        [HttpPut]
+        [Route("Pin/{noteId}")]
+        public IActionResult ChangePinNote(long noteId)
+        {
+            try
+            {
+                long userId = long.Parse(User.FindFirst("userId").Value);
+                var result = noteBusiness.ChangePinNote(noteId, userId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, Message = "Pin Changed", result = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, Message = "Pin not Change" });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

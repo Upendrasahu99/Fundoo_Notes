@@ -85,5 +85,19 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+
+        //Change Pin
+        public NoteEntity ChangePinNote(long noteId, long userId)
+        {
+            try
+            {
+                return noteRepo.ChangePinNote(noteId, userId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -152,5 +152,36 @@ namespace RepoLayer.Service
             }
         }
 
+
+        //Change PinNote
+        public NoteEntity ChangePinNote(long noteId, long userId)
+        {
+            try
+            {
+                NoteEntity note = fundooContext.Note.SingleOrDefault(u => u.NoteId == noteId && u.UserId == userId);
+                if (note != null && note.PinNote == true)
+                {
+                    note.PinNote = false;
+                    fundooContext.SaveChanges();
+                    return note;
+                }
+                else if (note != null && note.PinNote == false)
+                {
+                    note.PinNote = true;
+                    fundooContext.SaveChanges();
+                    return note;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
     }
 }
