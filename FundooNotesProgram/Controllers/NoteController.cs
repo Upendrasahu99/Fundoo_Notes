@@ -178,5 +178,31 @@ namespace FundooNotesProgram.Controllers
                 throw;
             }
         }
+
+        //Change Trash Section
+        [Authorize]
+        [HttpPut]
+        [Route("Trash/{noteId}")]
+        public IActionResult ChangeTrashSection(long noteId)
+        {
+            try
+            {
+                long userId = long.Parse(User.FindFirst("userId").Value);
+                var result = noteBusiness.ChangeTrashSection(noteId, userId);
+
+                if (result != null)
+                {
+                    return Ok(new { success = true, Message = "Trash Changed", result = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, Message = "Trash Not Change" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

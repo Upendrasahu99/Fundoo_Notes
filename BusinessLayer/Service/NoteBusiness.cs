@@ -99,5 +99,19 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+
+        //Change TrashSection
+        public NoteEntity ChangeTrashSection(long noteId, long userId)
+        {
+            try
+            {
+                return noteRepo.ChangeTrashSection(noteId, userId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace RepoLayer.Interface
         public NoteEntity DeleteNote(long noteId, long userId);
         public NoteEntity ChangeArchive(long noteId, long userId);
         public NoteEntity ChangePinNote(long noteId, long userId);
+        public NoteEntity ChangeTrashSection(long noteId, long userId);
     }
 }

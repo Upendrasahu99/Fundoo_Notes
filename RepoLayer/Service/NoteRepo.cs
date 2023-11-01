@@ -55,7 +55,7 @@ namespace RepoLayer.Service
         {
             try
             {
-                NoteEntity note = fundooContext.Note.FirstOrDefault(u => u.NoteId == noteId && u.UserId == userId);
+                NoteEntity note = fundooContext.Note.SingleOrDefault(u => u.NoteId == noteId && u.UserId == userId);
                 if (note != null)
                 {
                     note.Title = updateNoteModel.Title;
@@ -182,6 +182,33 @@ namespace RepoLayer.Service
             }
         }
 
-
+        //Change TrashSection
+        public NoteEntity ChangeTrashSection(long noteId, long userId)
+        {
+            try
+            {
+                NoteEntity note = fundooContext.Note.SingleOrDefault(u => u.NoteId == noteId && u.UserId == userId);
+                if (note != null && note.Trash == false)
+                {
+                    note.Trash = true;
+                    fundooContext.SaveChanges();
+                    return note;
+                }
+                else if (note != null && note.Trash == true)
+                {
+                    note.Trash = false;
+                    fundooContext.SaveChanges();
+                    return note;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
