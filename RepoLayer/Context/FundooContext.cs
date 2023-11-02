@@ -11,5 +11,6 @@ namespace RepoLayer.Context
         public FundooContext(DbContextOptions options) :base(options) { }
         public DbSet<UserEntity> users { get; set; }
         public DbSet<NoteEntity> Note {  get; set; }
+        public DbSet<CollabEntity> Collab { get; set; }
     }
 }
