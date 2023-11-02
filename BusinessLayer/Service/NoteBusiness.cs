@@ -127,5 +127,19 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+
+        //Find Notes
+        public List<NoteEntity> FindNotes(string keyword, long userId)
+        {
+            try
+            {
+                return noteRepo.FindNotes(keyword, userId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

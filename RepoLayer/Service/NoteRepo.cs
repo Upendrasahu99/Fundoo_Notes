@@ -233,5 +233,26 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+
+        // Find Notes
+        public List<NoteEntity> FindNotes(string keyword, long userId)
+        {
+            try
+            {
+                var notes = fundooContext.Note.Where(u => u.Note.Contains(keyword)).ToList();
+                if (notes != null)
+                {
+                    return notes;
+                }
+                else
+                {
+                    return notes;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

@@ -229,5 +229,31 @@ namespace FundooNotesProgram.Controllers
                 throw;
             }
         }
+
+        //Find Note
+        [Authorize]
+        [HttpGet]
+        [Route("Find/{Keyword}")]
+        public IActionResult FindNote(string keyword)
+        {
+            try
+            {
+                long userId = long.Parse(User.FindFirst("UserId").Value);
+                var result = noteBusiness.FindNotes(keyword, userId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, Message = "Notes which contain keyword " + keyword, result = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, Message = "Not find Notes which contain " + keyword });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
